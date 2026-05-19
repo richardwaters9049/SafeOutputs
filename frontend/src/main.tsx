@@ -296,24 +296,24 @@ function App() {
 
         <motion.section
           animate="show"
-          className={`rounded-lg border p-4 shadow-xl transition-colors duration-300 ${isDarkMode ? 'border-[#4a5568]/50 bg-[#1a202c] text-[#e2e8f0] shadow-[#0a0f1a]/15' : 'border-[#D5C6E0]/80 bg-[#192A51] text-white shadow-[#192A51]/15'}`}
+          className={`rounded-lg border p-8 shadow-xl transition-colors duration-300 ${isDarkMode ? 'border-[#4a5568]/50 bg-[#1a202c] text-[#e2e8f0] shadow-[#0a0f1a]/15' : 'border-[#D5C6E0]/80 bg-[#192A51] text-white shadow-[#192A51]/15'}`}
           initial="hidden"
           transition={{ delay: 0.14, duration: 0.45, ease: "easeOut" }}
           variants={pageTransition}
         >
-          <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+          <div className="mb-4 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <p className="mb-1 text-xs font-bold uppercase tracking-[0.18em] text-[#967AA1]">
+              <h2 className="mb-3 text-lg font-bold uppercase tracking-[0.18em] text-[#967AA1]">
                 Dummy test data
-              </p>
-              <h2 className="text-lg font-black">Load a realistic export scenario</h2>
+              </h2>
+              <p className="text-base font-black">Load a realistic export scenario</p>
             </div>
-            <p className={`max-w-xl text-sm ${isDarkMode ? 'text-[#e2e8f0]/80' : 'text-[#F5E6E8]/80'}`}>
+            <p className={`max-w-xl text-base ${isDarkMode ? 'text-[#e2e8f0]/80' : 'text-[#F5E6E8]/80'}`}>
               Use these to test the product the way a researcher or reviewer would: load, assess,
               then inspect the result.
             </p>
           </div>
-          <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
             {scenarios.map((scenario, index) => (
               <ScenarioButton
                 index={index}
@@ -512,8 +512,8 @@ function ScenarioButton({
       </div>
       <p className={`text-sm leading-5 ${isDarkMode ? 'text-[#e2e8f0]/80' : 'text-[#F5E6E8]/80'}`}>{scenario.description}</p>
       <span className={`mt-auto inline-flex items-center gap-2 text-sm font-black ${isDarkMode ? 'text-[#967AA1]' : 'text-[#D5C6E0]'}`}>
-        <Play size={15} aria-hidden="true" />
-        Load sample
+        <Play size={20} aria-hidden="true" />
+        <p>Load Sample</p>
       </span>
     </motion.button>
   );
@@ -609,9 +609,9 @@ function QueueItem({
   return (
     <motion.button
       animate={{ opacity: 1, x: 0 }}
-      className={`grid min-w-0 grid-cols-[1fr_auto] items-center gap-3 rounded-lg border p-3 text-left transition ${isActive
+      className={`test-btn grid min-w-0 grid-cols-[1fr_auto] items-center gap-3 rounded-lg border p-3 text-left transition ${isActive
         ? "border-[#192A51] bg-[#D5C6E0]/65 shadow-md"
-        : "border-[#D5C6E0] bg-[#F5E6E8]/45 hover:border-[#967AA1] hover:bg-[#D5C6E0]/35"
+        : "border-[#D5C6E0] bg-[#967AA1] hover:border-[#967AA1] hover:bg-[#D5C6E0]/35"
         }`}
       exit={{ opacity: 0, x: 12 }}
       initial={{ opacity: 0, x: -12 }}
@@ -620,10 +620,10 @@ function QueueItem({
       whileHover={{ x: 2 }}
     >
       <div className="min-w-0">
-        <span className="block truncate text-sm font-black text-[#192A51]">
+        <span className="block truncate text-sm text-white font-bold">
           {assessment.submission.file_name}
         </span>
-        <span className="mt-1 block text-xs font-semibold text-[#192A51]/60">
+        <span className="mt-1 block text-sm font-semibold text-[#192A51]/60">
           Risk {assessment.risk_score} • {assessment.submission.project_id}
         </span>
       </div>
@@ -674,7 +674,7 @@ function AssessmentDetail({ assessment, isDarkMode }: { assessment: Assessment; 
         </p>
         <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between lg:flex-col">
           <div className="min-w-0">
-            <h2 className={`truncate font-black ${isDarkMode ? 'text-[#e2e8f0]' : 'text-[#192A51]'}`}>
+            <h2 className={`truncate font-black text-sm ${isDarkMode ? 'text-[#e2e8f0]' : 'text-[#192A51]'}`}>
               {assessment.submission.file_name}
             </h2>
             <p className={`mt-2 text-sm font-semibold ${isDarkMode ? 'text-[#e2e8f0]/60' : 'text-[#192A51]/60'}`}>
