@@ -599,10 +599,12 @@ function QueueItem({
   assessment,
   isActive,
   onSelect,
+  isDarkMode,
 }: {
   assessment: Assessment;
   isActive: boolean;
   onSelect: () => void;
+  isDarkMode: boolean;
 }) {
   return (
     <motion.button
@@ -626,7 +628,7 @@ function QueueItem({
         </span>
       </div>
       <div className="flex items-center gap-2">
-        <DecisionBadge decision={assessment.decision} />
+        <DecisionBadge decision={assessment.decision} isDarkMode={false} />
         <ChevronRight size={16} aria-hidden="true" />
       </div>
     </motion.button>
@@ -663,7 +665,7 @@ function DecisionBadge({ decision, isDarkMode }: { decision: Decision; isDarkMod
   );
 }
 
-function AssessmentDetail({ assessment }: { assessment: Assessment }) {
+function AssessmentDetail({ assessment, isDarkMode }: { assessment: Assessment; isDarkMode: boolean }) {
   return (
     <div className="grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
       <div className="min-w-0">
@@ -672,14 +674,14 @@ function AssessmentDetail({ assessment }: { assessment: Assessment }) {
         </p>
         <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between lg:flex-col">
           <div className="min-w-0">
-            <h2 className="truncate font-black text-[#192A51]">
+            <h2 className={`truncate font-black ${isDarkMode ? 'text-[#e2e8f0]' : 'text-[#192A51]'}`}>
               {assessment.submission.file_name}
             </h2>
-            <p className="mt-2 text-sm font-semibold text-[#192A51]/60">
+            <p className={`mt-2 text-sm font-semibold ${isDarkMode ? 'text-[#e2e8f0]/60' : 'text-[#192A51]/60'}`}>
               {assessment.assessment_id} • {new Date(assessment.submitted_at).toLocaleString()}
             </p>
           </div>
-          <DecisionBadge decision={assessment.decision} />
+          <DecisionBadge decision={assessment.decision} isDarkMode={isDarkMode} />
         </div>
 
         <div className="mt-6 rounded-lg bg-[#F5E6E8]/70 p-4">
