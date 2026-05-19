@@ -68,7 +68,3 @@ infra/terraform/  AWS infrastructure skeleton
 docs/             Architecture and implementation notes
 samples/          Example export candidates
 ```
-
-## Why This Project Fits The Role
-
-This is not just a CRUD demo. It shows the shape of a secure research platform: API-first services, explainable automated checks, auditability, cloud deployment thinking, and a user interface for operational decision-making.
