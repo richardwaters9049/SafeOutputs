@@ -1,10 +1,8 @@
 # SafeOutputs AI
 
-**Short description:** An AI-ready trusted research output checking prototype that screens researcher export files for disclosure risk before release.
+An AI-ready, trusted research output checking prototype that screens researcher export files for disclosure risk before release.
 
 SafeOutputs AI is a portfolio-ready prototype inspired by trusted research environment output checking. It demonstrates how a cloud-native platform could help researchers submit files for automated safety review before export.
-
-The project is designed to align with UK Biobank's Automated Output Checking System role:
 
 - Python/FastAPI backend with secure API patterns.
 - React and TypeScript frontend for reviewer workflows.
