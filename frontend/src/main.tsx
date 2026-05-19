@@ -8,9 +8,11 @@ import {
   ClipboardCheck,
   FileSearch,
   Loader2,
+  Moon,
   Play,
   ShieldCheck,
   Sparkles,
+  Sun,
   XCircle,
 } from "lucide-react";
 import "./styles.css";
@@ -151,6 +153,7 @@ function App() {
   const [selected, setSelected] = useState<Assessment | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isDarkMode, setIsDarkMode] = useState(true);
   const resultsRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
@@ -211,11 +214,11 @@ function App() {
   }, [assessments]);
 
   return (
-    <main className="min-h-screen overflow-x-hidden bg-[#F5E6E8] text-[#192A51]">
+    <main className={`min-h-screen overflow-x-hidden transition-colors duration-300 ${isDarkMode ? 'bg-[#0a0f1a] text-[#e2e8f0]' : 'bg-[#F5E6E8] text-[#192A51]'}`}>
       <div className="mx-auto grid w-full max-w-7xl gap-6 px-4 py-5 sm:px-6 lg:px-8">
         <motion.section
           animate="show"
-          className="grid gap-5 rounded-lg border border-[#D5C6E0]/80 bg-white/75 p-5 shadow-xl shadow-[#192A51]/10 backdrop-blur md:grid-cols-[1fr_auto]"
+          className={`grid gap-5 rounded-lg border p-5 shadow-xl backdrop-blur md:grid-cols-[1fr_auto] transition-colors duration-300 ${isDarkMode ? 'border-[#4a5568]/50 bg-[#1a202c]/80 shadow-[#0a0f1a]/20' : 'border-[#D5C6E0]/80 bg-white/75 shadow-[#192A51]/10'}`}
           initial="hidden"
           transition={{ duration: 0.45, ease: "easeOut" }}
           variants={pageTransition}
@@ -225,12 +228,36 @@ function App() {
               Trusted research export control
             </p>
             <h1 className="text-3xl font-black leading-none sm:text-5xl">SafeOutputs AI</h1>
-            <p className="mt-4 max-w-2xl text-sm leading-6 text-[#192A51]/75 sm:text-base">
+            <p className={`mt-4 max-w-2xl text-sm leading-6 sm:text-base ${isDarkMode ? 'text-[#e2e8f0]/75' : 'text-[#192A51]/75'}`}>
               Screens researcher export files before release, combining deterministic disclosure
               checks with an AI-ready scoring workflow. The expected output is an explainable
               decision: approved, review required, or blocked.
             </p>
           </div>
+
+          <motion.button
+            onClick={() => setIsDarkMode(!isDarkMode)}
+            className={`relative h-14 w-14 rounded-full p-0 shadow-lg transition-colors duration-300 ${isDarkMode ? 'bg-[#2d3748] hover:bg-[#4a5568]' : 'bg-[#F5E6E8] hover:bg-[#e2e8f0]'}`}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={isDarkMode ? 'dark' : 'light'}
+                initial={{ rotate: -90, opacity: 0, scale: 0.5 }}
+                animate={{ rotate: 0, opacity: 1, scale: 1 }}
+                exit={{ rotate: 90, opacity: 0, scale: 0.5 }}
+                transition={{ duration: 0.2 }}
+                className="absolute inset-0 flex items-center justify-center"
+              >
+                {isDarkMode ? (
+                  <Moon className={`h-6 w-6 ${isDarkMode ? 'text-[#e2e8f0]' : 'text-[#192A51]'}`} />
+                ) : (
+                  <Sun className={`h-6 w-6 ${isDarkMode ? 'text-[#e2e8f0]' : 'text-[#192A51]'}`} />
+                )}
+              </motion.div>
+            </AnimatePresence>
+          </motion.button>
 
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
             <Metric label="Total" value={metrics.total} tone="total" />
@@ -251,34 +278,37 @@ function App() {
             icon={<FileSearch size={18} />}
             title="What it does"
             body="Accepts export metadata and a preview extract, then checks for disclosure risks."
+            isDarkMode={isDarkMode}
           />
           <InfoCard
             icon={<Sparkles size={18} />}
             title="How it works"
             body="Scores identifiers, small cells, sensitive terms, and export volume with auditable evidence."
+            isDarkMode={isDarkMode}
           />
           <InfoCard
             icon={<ClipboardCheck size={18} />}
             title="Expected output"
             body="Returns a risk score, decision, findings, and recommendations for reviewer action."
+            isDarkMode={isDarkMode}
           />
         </motion.section>
 
         <motion.section
           animate="show"
-          className="rounded-lg border border-[#D5C6E0]/80 bg-[#192A51] p-4 text-white shadow-xl shadow-[#192A51]/15"
+          className={`rounded-lg border p-4 shadow-xl transition-colors duration-300 ${isDarkMode ? 'border-[#4a5568]/50 bg-[#1a202c] text-[#e2e8f0] shadow-[#0a0f1a]/15' : 'border-[#D5C6E0]/80 bg-[#192A51] text-white shadow-[#192A51]/15'}`}
           initial="hidden"
           transition={{ delay: 0.14, duration: 0.45, ease: "easeOut" }}
           variants={pageTransition}
         >
           <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <p className="mb-1 text-xs font-bold uppercase tracking-[0.18em] text-[#D5C6E0]">
+              <p className="mb-1 text-xs font-bold uppercase tracking-[0.18em] text-[#967AA1]">
                 Dummy test data
               </p>
               <h2 className="text-lg font-black">Load a realistic export scenario</h2>
             </div>
-            <p className="max-w-xl text-sm text-[#F5E6E8]/80">
+            <p className={`max-w-xl text-sm ${isDarkMode ? 'text-[#e2e8f0]/80' : 'text-[#F5E6E8]/80'}`}>
               Use these to test the product the way a researcher or reviewer would: load, assess,
               then inspect the result.
             </p>
@@ -293,6 +323,7 @@ function App() {
                   setForm(scenario.submission);
                   setSelected(null);
                 }}
+                isDarkMode={isDarkMode}
               />
             ))}
           </div>
@@ -301,34 +332,37 @@ function App() {
         <section className="grid gap-6 xl:grid-cols-[minmax(0,1.35fr)_minmax(320px,0.65fr)]">
           <motion.form
             animate="show"
-            className="rounded-lg border border-[#D5C6E0]/80 bg-white p-5 shadow-xl shadow-[#192A51]/10"
+            className={`rounded-lg border p-5 shadow-xl transition-colors duration-300 ${isDarkMode ? 'border-[#4a5568]/50 bg-[#1a202c]/80 shadow-[#0a0f1a]/20' : 'border-[#D5C6E0]/80 bg-white shadow-[#192A51]/10'}`}
             initial="hidden"
             onSubmit={submitAssessment}
             transition={{ delay: 0.2, duration: 0.45, ease: "easeOut" }}
             variants={pageTransition}
           >
-            <PanelHeading icon={<FileSearch size={20} />} title="Submit Output" />
+            <PanelHeading icon={<FileSearch size={20} />} title="Submit Output" isDarkMode={isDarkMode} />
 
             <div className="grid gap-4 md:grid-cols-2">
               <TextField
                 label="Researcher ID"
                 value={form.researcher_id}
                 onChange={(value) => setForm({ ...form, researcher_id: value })}
+                isDarkMode={isDarkMode}
               />
               <TextField
                 label="Project ID"
                 value={form.project_id}
                 onChange={(value) => setForm({ ...form, project_id: value })}
+                isDarkMode={isDarkMode}
               />
               <TextField
                 label="File name"
                 value={form.file_name}
                 onChange={(value) => setForm({ ...form, file_name: value })}
+                isDarkMode={isDarkMode}
               />
-              <label className="grid gap-2 text-sm font-bold text-[#192A51]">
+              <label className={`grid gap-2 text-sm font-bold ${isDarkMode ? 'text-[#e2e8f0]' : 'text-[#192A51]'}`}>
                 File kind
                 <select
-                  className="min-h-11 rounded-md border border-[#AAA1C8]/70 bg-[#F5E6E8]/45 px-3 text-[#192A51] outline-none transition focus:border-[#192A51] focus:ring-4 focus:ring-[#D5C6E0]/60"
+                  className={`min-h-11 rounded-md border px-3 outline-none transition focus:ring-4 ${isDarkMode ? 'border-[#4a5568]/50 bg-[#2d3748] text-[#e2e8f0] focus:border-[#967AA1] focus:ring-[#4a5568]/30' : 'border-[#AAA1C8]/70 bg-[#F5E6E8]/45 text-[#192A51] focus:border-[#192A51] focus:ring-[#D5C6E0]/60'}`}
                   value={form.file_kind}
                   onChange={(event) => setForm({ ...form, file_kind: event.target.value })}
                 >
@@ -343,18 +377,20 @@ function App() {
                 label="Rows"
                 value={form.declared_rows}
                 onChange={(value) => setForm({ ...form, declared_rows: value })}
+                isDarkMode={isDarkMode}
               />
               <NumberField
                 label="Columns"
                 value={form.declared_columns}
                 onChange={(value) => setForm({ ...form, declared_columns: value })}
+                isDarkMode={isDarkMode}
               />
             </div>
 
-            <label className="mt-4 grid gap-2 text-sm font-bold text-[#192A51]">
+            <label className={`mt-4 grid gap-2 text-sm font-bold ${isDarkMode ? 'text-[#e2e8f0]' : 'text-[#192A51]'}`}>
               Preview text
               <textarea
-                className="min-h-48 resize-y rounded-md border border-[#AAA1C8]/70 bg-[#F5E6E8]/45 px-3 py-3 font-mono text-sm text-[#192A51] outline-none transition focus:border-[#192A51] focus:ring-4 focus:ring-[#D5C6E0]/60"
+                className={`min-h-48 resize-y rounded-md border px-3 py-3 font-mono text-sm outline-none transition focus:ring-4 ${isDarkMode ? 'border-[#4a5568]/50 bg-[#2d3748] text-[#e2e8f0] focus:border-[#967AA1] focus:ring-[#4a5568]/30' : 'border-[#AAA1C8]/70 bg-[#F5E6E8]/45 text-[#192A51] focus:border-[#192A51] focus:ring-[#D5C6E0]/60'}`}
                 value={form.preview_text}
                 onChange={(event) => setForm({ ...form, preview_text: event.target.value })}
               />
@@ -364,7 +400,7 @@ function App() {
               {error && (
                 <motion.p
                   animate={{ opacity: 1, y: 0 }}
-                  className="mt-4 rounded-md border border-[#967AA1]/50 bg-[#F5E6E8] px-3 py-2 text-sm font-semibold text-[#192A51]"
+                  className={`mt-4 rounded-md border px-3 py-2 text-sm font-semibold transition-colors duration-300 ${isDarkMode ? 'border-[#967AA1]/50 bg-[#2d3748] text-[#e2e8f0]' : 'border-[#967AA1]/50 bg-[#F5E6E8] text-[#192A51]'}`}
                   exit={{ opacity: 0, y: -8 }}
                   initial={{ opacity: 0, y: -8 }}
                 >
@@ -374,7 +410,7 @@ function App() {
             </AnimatePresence>
 
             <motion.button
-              className="mt-5 inline-flex min-h-12 items-center justify-center gap-2 rounded-md bg-[#192A51] px-5 text-sm font-black text-white shadow-lg shadow-[#192A51]/20 transition hover:bg-[#967AA1] disabled:cursor-wait disabled:opacity-70"
+              className={`mt-5 inline-flex min-h-12 items-center justify-center gap-2 rounded-md px-5 text-sm font-black shadow-lg transition disabled:cursor-wait disabled:opacity-70 ${isDarkMode ? 'bg-[#4a5568] text-white shadow-[#0a0f1a]/20 hover:bg-[#967AA1]' : 'bg-[#192A51] text-white shadow-[#192A51]/20 hover:bg-[#967AA1]'}`}
               disabled={isSubmitting}
               type="submit"
               whileTap={{ scale: 0.98 }}
@@ -390,15 +426,15 @@ function App() {
 
           <motion.section
             animate="show"
-            className="rounded-lg border border-[#D5C6E0]/80 bg-white p-5 shadow-xl shadow-[#192A51]/10"
+            className={`rounded-lg border p-5 shadow-xl transition-colors duration-300 ${isDarkMode ? 'border-[#4a5568]/50 bg-[#1a202c]/80 shadow-[#0a0f1a]/20' : 'border-[#D5C6E0]/80 bg-white shadow-[#192A51]/10'}`}
             initial="hidden"
             transition={{ delay: 0.26, duration: 0.45, ease: "easeOut" }}
             variants={pageTransition}
           >
-            <PanelHeading icon={<ClipboardCheck size={20} />} title="Review Queue" />
+            <PanelHeading icon={<ClipboardCheck size={20} />} title="Review Queue" isDarkMode={isDarkMode} />
             <div className="grid max-h-[560px] gap-3 overflow-y-auto pr-1">
               {assessments.length === 0 && (
-                <p className="rounded-md bg-[#F5E6E8]/70 p-4 text-sm font-semibold text-[#192A51]/70">
+                <p className={`rounded-md p-4 text-sm font-semibold transition-colors duration-300 ${isDarkMode ? 'bg-[#2d3748]/70 text-[#e2e8f0]/70' : 'bg-[#F5E6E8]/70 text-[#192A51]/70'}`}>
                   No assessments yet. Load a sample, submit it, and the queue will populate here.
                 </p>
               )}
@@ -409,6 +445,7 @@ function App() {
                     isActive={selected?.assessment_id === assessment.assessment_id}
                     key={assessment.assessment_id}
                     onSelect={() => setSelected(assessment)}
+                    isDarkMode={isDarkMode}
                   />
                 ))}
               </AnimatePresence>
@@ -420,13 +457,13 @@ function App() {
           {selected && (
             <motion.section
               animate={{ opacity: 1, y: 0, height: "auto" }}
-              className="rounded-lg border border-[#AAA1C8] bg-white p-5 shadow-2xl shadow-[#192A51]/15"
+              className={`rounded-lg border p-5 shadow-2xl transition-colors duration-300 ${isDarkMode ? 'border-[#4a5568]/50 bg-[#1a202c]/80 shadow-[#0a0f1a]/15' : 'border-[#AAA1C8] bg-white shadow-[#192A51]/15'}`}
               exit={{ opacity: 0, y: 16, height: 0 }}
               initial={{ opacity: 0, y: 24, height: 0 }}
               ref={resultsRef}
               transition={{ duration: 0.38, ease: "easeOut" }}
             >
-              <AssessmentDetail assessment={selected} />
+              <AssessmentDetail assessment={selected} isDarkMode={isDarkMode} />
             </motion.section>
           )}
         </AnimatePresence>
@@ -435,15 +472,15 @@ function App() {
   );
 }
 
-function InfoCard({ body, icon, title }: { body: string; icon: React.ReactNode; title: string }) {
+function InfoCard({ body, icon, title, isDarkMode }: { body: string; icon: React.ReactNode; title: string; isDarkMode: boolean }) {
   return (
     <motion.article
-      className="rounded-lg border border-[#D5C6E0]/80 bg-white/80 p-4 shadow-lg shadow-[#192A51]/10"
+      className={`rounded-lg border p-4 shadow-lg transition-colors duration-300 ${isDarkMode ? 'border-[#4a5568]/50 bg-[#1a202c]/80 shadow-[#0a0f1a]/10' : 'border-[#D5C6E0]/80 bg-white/80 shadow-[#192A51]/10'}`}
       whileHover={{ y: -3 }}
     >
-      <div className="mb-3 inline-flex rounded-md bg-[#D5C6E0] p-2 text-[#192A51]">{icon}</div>
-      <h2 className="mb-2 text-base font-black">{title}</h2>
-      <p className="text-sm leading-6 text-[#192A51]/70">{body}</p>
+      <div className={`mb-3 inline-flex rounded-md p-2 ${isDarkMode ? 'bg-[#4a5568] text-[#e2e8f0]' : 'bg-[#D5C6E0] text-[#192A51]'}`}>{icon}</div>
+      <h2 className={`mb-2 text-base font-black ${isDarkMode ? 'text-[#e2e8f0]' : 'text-[#192A51]'}`}>{title}</h2>
+      <p className={`text-sm leading-6 ${isDarkMode ? 'text-[#e2e8f0]/70' : 'text-[#192A51]/70'}`}>{body}</p>
     </motion.article>
   );
 }
@@ -452,15 +489,17 @@ function ScenarioButton({
   index,
   onSelect,
   scenario,
+  isDarkMode,
 }: {
   index: number;
   onSelect: () => void;
   scenario: Scenario;
+  isDarkMode: boolean;
 }) {
   return (
     <motion.button
       animate={{ opacity: 1, y: 0 }}
-      className="group grid min-h-44 gap-3 rounded-lg border border-[#AAA1C8]/50 bg-white/10 p-4 text-left transition hover:border-[#F5E6E8] hover:bg-white/15"
+      className={`group grid min-h-44 gap-3 rounded-lg border p-4 text-left transition hover:bg-white/15 ${isDarkMode ? 'border-[#4a5568]/50 bg-white/5 hover:border-[#e2e8f0]/30' : 'border-[#AAA1C8]/50 bg-white/10 hover:border-[#F5E6E8]'}`}
       initial={{ opacity: 0, y: 12 }}
       onClick={onSelect}
       transition={{ delay: 0.18 + index * 0.04, duration: 0.35 }}
@@ -468,11 +507,11 @@ function ScenarioButton({
       whileTap={{ scale: 0.98 }}
     >
       <div className="flex items-start justify-between gap-3">
-        <h3 className="text-sm font-black text-white">{scenario.title}</h3>
-        <DecisionBadge decision={scenario.expected} />
+        <h3 className={`text-sm font-black ${isDarkMode ? 'text-[#e2e8f0]' : 'text-white'}`}>{scenario.title}</h3>
+        <DecisionBadge decision={scenario.expected} isDarkMode={isDarkMode} />
       </div>
-      <p className="text-sm leading-5 text-[#F5E6E8]/80">{scenario.description}</p>
-      <span className="mt-auto inline-flex items-center gap-2 text-sm font-black text-[#D5C6E0]">
+      <p className={`text-sm leading-5 ${isDarkMode ? 'text-[#e2e8f0]/80' : 'text-[#F5E6E8]/80'}`}>{scenario.description}</p>
+      <span className={`mt-auto inline-flex items-center gap-2 text-sm font-black ${isDarkMode ? 'text-[#967AA1]' : 'text-[#D5C6E0]'}`}>
         <Play size={15} aria-hidden="true" />
         Load sample
       </span>
@@ -499,11 +538,11 @@ function Metric({ label, value, tone }: { label: string; value: number; tone: De
   );
 }
 
-function PanelHeading({ icon, title }: { icon: React.ReactNode; title: string }) {
+function PanelHeading({ icon, title, isDarkMode }: { icon: React.ReactNode; title: string; isDarkMode: boolean }) {
   return (
     <div className="mb-5 flex items-center gap-3">
-      <div className="rounded-md bg-[#D5C6E0] p-2 text-[#192A51]">{icon}</div>
-      <h2 className="text-lg font-black">{title}</h2>
+      <div className={`rounded-md p-2 ${isDarkMode ? 'bg-[#4a5568] text-[#e2e8f0]' : 'bg-[#D5C6E0] text-[#192A51]'}`}>{icon}</div>
+      <h2 className={`text-lg font-black ${isDarkMode ? 'text-[#e2e8f0]' : 'text-[#192A51]'}`}>{title}</h2>
     </div>
   );
 }
@@ -512,16 +551,18 @@ function TextField({
   label,
   onChange,
   value,
+  isDarkMode,
 }: {
   label: string;
   onChange: (value: string) => void;
   value: string;
+  isDarkMode: boolean;
 }) {
   return (
-    <label className="grid gap-2 text-sm font-bold text-[#192A51]">
+    <label className={`grid gap-2 text-sm font-bold ${isDarkMode ? 'text-[#e2e8f0]' : 'text-[#192A51]'}`}>
       {label}
       <input
-        className="min-h-11 rounded-md border border-[#AAA1C8]/70 bg-[#F5E6E8]/45 px-3 text-[#192A51] outline-none transition focus:border-[#192A51] focus:ring-4 focus:ring-[#D5C6E0]/60"
+        className={`min-h-11 rounded-md border px-3 outline-none transition focus:ring-4 ${isDarkMode ? 'border-[#4a5568]/50 bg-[#2d3748] text-[#e2e8f0] focus:border-[#967AA1] focus:ring-[#4a5568]/30' : 'border-[#AAA1C8]/70 bg-[#F5E6E8]/45 text-[#192A51] focus:border-[#192A51] focus:ring-[#D5C6E0]/60'}`}
         value={value}
         onChange={(event) => onChange(event.target.value)}
       />
@@ -533,16 +574,18 @@ function NumberField({
   label,
   onChange,
   value,
+  isDarkMode,
 }: {
   label: string;
   onChange: (value: number) => void;
   value: number;
+  isDarkMode: boolean;
 }) {
   return (
-    <label className="grid gap-2 text-sm font-bold text-[#192A51]">
+    <label className={`grid gap-2 text-sm font-bold ${isDarkMode ? 'text-[#e2e8f0]' : 'text-[#192A51]'}`}>
       {label}
       <input
-        className="min-h-11 rounded-md border border-[#AAA1C8]/70 bg-[#F5E6E8]/45 px-3 text-[#192A51] outline-none transition focus:border-[#192A51] focus:ring-4 focus:ring-[#D5C6E0]/60"
+        className={`min-h-11 rounded-md border px-3 outline-none transition focus:ring-4 ${isDarkMode ? 'border-[#4a5568]/50 bg-[#2d3748] text-[#e2e8f0] focus:border-[#967AA1] focus:ring-[#4a5568]/30' : 'border-[#AAA1C8]/70 bg-[#F5E6E8]/45 text-[#192A51] focus:border-[#192A51] focus:ring-[#D5C6E0]/60'}`}
         min="0"
         type="number"
         value={value}
@@ -590,20 +633,20 @@ function QueueItem({
   );
 }
 
-function DecisionBadge({ decision }: { decision: Decision }) {
+function DecisionBadge({ decision, isDarkMode }: { decision: Decision; isDarkMode: boolean }) {
   const config = {
     approved: {
-      className: "bg-emerald-100 text-emerald-800",
+      className: isDarkMode ? "bg-emerald-900/50 text-emerald-400" : "bg-emerald-100 text-emerald-800",
       icon: CheckCircle2,
       label: "Approved",
     },
     review_required: {
-      className: "bg-amber-100 text-amber-900",
+      className: isDarkMode ? "bg-amber-900/50 text-amber-400" : "bg-amber-100 text-amber-900",
       icon: AlertTriangle,
       label: "Review",
     },
     blocked: {
-      className: "bg-rose-100 text-rose-900",
+      className: isDarkMode ? "bg-rose-900/50 text-rose-400" : "bg-rose-100 text-rose-900",
       icon: XCircle,
       label: "Blocked",
     },
