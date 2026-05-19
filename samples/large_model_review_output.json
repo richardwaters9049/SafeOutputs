@@ -1,0 +1,10 @@
+{
+  "researcher_id": "res-3760",
+  "project_id": "metabolic-risk-modelling",
+  "file_name": "model_feature_importance_export_full_feature_matrix.csv",
+  "file_kind": "table",
+  "preview_text": "feature,importance\nage_band,0.22\nsex,0.18\nimaging_score,0.16",
+  "declared_rows": 180000,
+  "declared_columns": 246
+}
+

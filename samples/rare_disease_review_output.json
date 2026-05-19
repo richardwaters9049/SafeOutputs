@@ -1,0 +1,10 @@
+{
+  "researcher_id": "res-1182",
+  "project_id": "rare-cardiac-genomics",
+  "file_name": "rare_disease_genotype_cell_counts_by_region.csv",
+  "file_kind": "table",
+  "preview_text": "region,variant,count\nNorth West,BRCA-like variant,count=3\nLondon,variant B,n=2",
+  "declared_rows": 8,
+  "declared_columns": 3
+}
+

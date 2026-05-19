@@ -1,10 +1,9 @@
 {
   "researcher_id": "res-2048",
   "project_id": "ukb-heart-imaging",
-  "file_name": "participant_notes.txt",
+  "file_name": "participant_follow_up_notes_with_contact_details.txt",
   "file_kind": "document",
   "preview_text": "Participant contact: alex@example.org. Rare disease cohort n=3.",
   "declared_rows": 1,
   "declared_columns": 1
 }
-

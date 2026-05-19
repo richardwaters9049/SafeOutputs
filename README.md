@@ -16,17 +16,17 @@ The project is designed to align with UK Biobank's Automated Output Checking Sys
 ## Architecture
 
 ```mermaid
-flowchart LR
-  Researcher["Researcher / TRE user"] --> UI["React TypeScript UI"]
-  UI --> API["FastAPI review API"]
-  API --> Engine["Output checking engine"]
+flowchart TD
+  Researcher["Researcher / TRE user"] --> UI["React UI"]
+  UI --> API["FastAPI API"]
+  API --> Engine["Checking engine"]
   Engine --> Rules["Disclosure rules"]
-  Engine --> Classifier["AI classifier adapter"]
+  Engine --> Classifier["AI classifier"]
   API --> Store["Submission store"]
   API --> Events["Audit events"]
-  Events --> Bus["EventBridge / queue"]
-  Store --> S3["S3 export evidence"]
-  API --> Observability["Logs, metrics, traces"]
+  Events --> Bus["EventBridge"]
+  Store --> S3["S3 evidence"]
+  API --> Obs["Logs & metrics"]
 ```
 
 ## Features
