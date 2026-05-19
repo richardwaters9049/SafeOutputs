@@ -1,0 +1,10 @@
+{
+  "researcher_id": "res-2048",
+  "project_id": "ukb-heart-imaging",
+  "file_name": "aggregate_results.csv",
+  "file_kind": "table",
+  "preview_text": "age_band,total\n50-59,420\n60-69,538",
+  "declared_rows": 12,
+  "declared_columns": 2
+}
+
